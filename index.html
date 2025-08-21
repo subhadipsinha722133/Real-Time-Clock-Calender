@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12-Hour Real-Time Clock</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background:linear-gradient(280deg,rgb(0, 0, 255),rgb(255, 238, 0),rgb(255, 0, 0));
+            font-family: Arial, sans-serif;
+        }
+        
+        .clock-container {
+            text-align: center;
+        }
+        
+        .clock {
+            font-size: 5rem;
+            color: #333;
+            background-color: #fcfbfb;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .date {
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 15px;
+        }
+        
+        .ampm {
+            font-size: 2rem;
+            color: #444;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="clock">
+            <span id="time">00:00:00</span>
+            <span class="ampm" id="ampm">AM</span>
+        </div>
+        <div class="date" id="date">Monday, January 1, 2000</div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // 12-Hour Time Format
+            const hours = (now.getHours() % 12 || 12).toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+            
+            // Date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString(undefined, options);
+            
+            // Update the DOM
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('ampm').textContent = ampm;
+            document.getElementById('date').textContent = dateString;
+        }
+        
+        // Update the clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
